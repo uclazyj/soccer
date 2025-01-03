@@ -3,7 +3,7 @@ from flask import Flask, redirect, render_template, request, url_for
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-names = ["Alice, Bob, Carol"]
+names = ["Alice", "Bob", "Carol"]
 
 @app.route('/', methods=["GET", "POST"])
 def index():

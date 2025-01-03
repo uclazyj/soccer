@@ -6,24 +6,20 @@
         <title>Secaucus Soccer</title>
     </head>
     <body>
-        Please enter your wechat group alias below to sign up :
-            <br>
-            <br>
-        <div class = "container">
-            {% for name in names %}
-                <div class = "row">
-                    {{ name }}
-                </div>
-            {% endfor %}
+        <div class = "text-center">
+            Please enter your wechat group alias below to sign up :
         </div>
 
         <div class="container py-5 text-center">
 
-            <div class="row" style="margin-bottom: 1ex">
-                <div>
-                    Alice
-                </div>
+            <div>
+                {% for name in names %}
+                    <div class = "text-center">
+                        {{ name }}
+                    </div>
+                {% endfor %}
             </div>
+            <br>
 
             <form action="." method="POST">
                 <!--class="form-control mx-auto w-auto"-->
@@ -32,7 +28,7 @@
                 </div>
                 <!--<textarea class="form-control" name="name" placeholder="Enter your name"></textarea>-->
                 <br>
-                <button type="submit" class="btn btn-success" >Post comment</button>
+                <button type="submit" class="btn btn-success" >Sign up</button>
             </form>
         </div>
     </body>
