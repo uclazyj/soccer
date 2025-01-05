@@ -1,7 +1,7 @@
 CREATE TABLE signup (
     date TEXT NOT NULL,
     name TEXT NOT NULL,
-    signup_ts TEXT NOT NULL,
+    ts TEXT NOT NULL,
     cancel INTEGER,
     PRIMARY KEY (date, name)
 );

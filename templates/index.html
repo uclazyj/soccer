@@ -28,8 +28,12 @@
                     {% for row in rows %}
                         <tr>
                             <td>{{ row.date }}</td>
-                            <td>{{ row.name }}</td>
-                            <td>{{ row.signup_ts }}</td>
+                            {% if row.cancel == 0 %}
+                                <td>{{ row.name }}</td>
+                            {% else %}
+                                <td><s>{{ row.name }}<s></td>
+                            {% endif%}
+                            <td>{{ row.ts }}</td>
                         </tr>
                     {% endfor%}
                 </tbody>
@@ -53,7 +57,8 @@
                 </div>
                 <!--<textarea class="form-control" name="name" placeholder="Enter your name"></textarea>-->
                 <br>
-                <button type="submit" class="btn btn-success" >Sign up</button>
+                <button type="submit" class="btn btn-success" name="submitAction" value="signup">Sign up</button>
+                <button type="submit" class="btn btn-danger" name="submitAction" value="withdraw">Withdraw</button>
             </form>
         </div>
     </body>
