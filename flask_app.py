@@ -10,7 +10,7 @@ app.config["DEBUG"] = True
 
 db = SQL("sqlite:////home/zhaoyujian/soccer/soccer.db")
 
-date = "2025-01-01"
+date = "2025-01-12"
 
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -23,7 +23,12 @@ def index():
         return redirect(url_for('index'))
 
     now = datetime.now(timezone('EST'))
+    today = now.strftime("%Y-%m-%d")
     ts = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Cannot signup / withdraw previous event
+    if date < today:
+        return redirect(url_for('index'))
 
     submit_action = request.form.get('submitAction')
 
