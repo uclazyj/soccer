@@ -1,0 +1,9 @@
+CREATE TABLE signup (
+    date TEXT NOT NULL,
+    name TEXT NOT NULL,
+    signup_ts TEXT NOT NULL
+);
+
+CREATE TABLE signup_nameonly (
+    name TEXT NOT NULL
+);

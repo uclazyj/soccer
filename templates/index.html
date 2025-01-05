@@ -6,6 +6,9 @@
         <title>Secaucus Soccer</title>
     </head>
     <body>
+        <div>
+            In winter, we play indoor soccer at <a href="https://www.sofive.com/locations/meadowlands">sofive</a>!
+        </div>
         <div class = "text-center">
             Please enter your wechat group alias below to sign up :
         </div>
@@ -13,9 +16,9 @@
         <div class="container py-5 text-center">
 
             <div>
-                {% for name in names %}
+                {% for row in names %}
                     <div class = "text-center">
-                        {{ name }}
+                        {{ row.name }}
                     </div>
                 {% endfor %}
             </div>
