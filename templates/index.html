@@ -15,14 +15,36 @@
 
         <div class="container py-5 text-center">
 
-            <div>
-                {% for row in names %}
-                    <div class = "text-center">
-                        {{ row.name }}
-                    </div>
-                {% endfor %}
-            </div>
-            <br>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event Date</th>
+                        <th>Name</th>
+                        <th>Sign up/Cancel time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr>
+                            <td>{{ row.date }}</td>
+                            <td>{{ row.name }}</td>
+                            <td>{{ row.signup_ts }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+
+
+
+            <!--<div>-->
+            <!--    {% for row in names %}-->
+            <!--        <div class = "text-center">-->
+            <!--            {{ row.name }}-->
+            <!--        </div>-->
+            <!--    {% endfor %}-->
+            <!--</div>-->
+            <!--<br>-->
 
             <form action="/" method="POST">
                 <!--class="form-control mx-auto w-auto"-->
