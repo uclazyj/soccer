@@ -9,8 +9,16 @@
         <div>
             In winter, we play indoor soccer at <a href="https://www.sofive.com/locations/meadowlands">sofive</a>!
         </div>
+
+        <ul>
+          <li><a href="?date=2025-01-05">2025-01-05</a></li>
+          <li><a href="?date=2025-01-12">2025-01-12</a></li>
+          <li><a href="?date=2025-01-19">2025-01-19</a></li>
+        </ul>
+
+
         <div class = "text-center">
-            Please enter your wechat group alias below to sign up :
+            Soccer event on {{date}}. Please enter your wechat group alias below to sign up :
         </div>
 
         <div class="container py-5 text-center">
@@ -19,7 +27,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Event Date</th>
+                        <th>Number</th>
                         <th>Name</th>
                         <th>Sign up / Withdraw time</th>
                     </tr>
@@ -27,7 +35,7 @@
                 <tbody>
                     {% for row in rows_signup %}
                         <tr>
-                            <td>{{ row.date }}</td>
+                            <td>{{ loop.index }}</td>
                             <td>{{ row.name }}</td>
                             <td>{{ row.ts }}</td>
                         </tr>
@@ -35,7 +43,7 @@
 
                     {% for row in rows_withdraw %}
                         <tr>
-                            <td>{{ row.date }}</td>
+                            <td></td>
                             <td><s>{{ row.name }}<s></td>
                             <td>{{ row.ts }}</td>
                         </tr>

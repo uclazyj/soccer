@@ -1,4 +1,5 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, session, url_for
+from flask_session import Session
 from cs50 import SQL
 
 from datetime import datetime
@@ -7,20 +8,26 @@ from pytz import timezone
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
 
 db = SQL("sqlite:////home/zhaoyujian/soccer/soccer.db")
-
-date = "2025-01-12"
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "GET":
-        rows_signup = db.execute("SELECT date, name, ts, cancel FROM signup WHERE cancel = 0 ORDER BY ts")
-        rows_withdraw = db.execute("SELECT date, name, ts, cancel FROM signup WHERE cancel = 1 ORDER BY ts")
-        return render_template("index.html", rows_signup = rows_signup, rows_withdraw = rows_withdraw)
+        date = request.args.get("date", default="")
+        session["date"] = date
+        rows_signup = db.execute("SELECT name, ts, cancel FROM signup WHERE date = ? AND cancel = 0 ORDER BY ts", date)
+        rows_withdraw = db.execute("SELECT name, ts, cancel FROM signup WHERE date = ? AND cancel = 1 ORDER BY ts", date)
+        return render_template("index.html", date = date, rows_signup = rows_signup, rows_withdraw = rows_withdraw)
+
+    date = session["date"]
     name = request.form.get("name")
-    if name == "" or name[0] == " ":
-        return redirect(url_for('index'))
+    if name == "" or " " in name:
+        return redirect(url_for('index', date = date))
 
     now = datetime.now(timezone('EST'))
     today = now.strftime("%Y-%m-%d")
@@ -28,7 +35,7 @@ def index():
 
     # Cannot signup / withdraw previous event
     if date < today:
-        return redirect(url_for('index'))
+        return redirect(url_for('index', date = date))
 
     submit_action = request.form.get('submitAction')
 
@@ -44,4 +51,4 @@ def index():
         if len(row) > 0 and row[0]["cancel"] == 0:
             db.execute("UPDATE signup SET cancel = ?, ts = ? WHERE date = ? AND name = ? ",
                        1, ts, date, name)
-    return redirect(url_for('index'))
+    return redirect(url_for('index', date = date))
