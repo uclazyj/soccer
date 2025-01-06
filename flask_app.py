@@ -15,25 +15,38 @@ Session(app)
 
 db = SQL("sqlite:////home/zhaoyujian/soccer/soccer.db")
 
-# events = [{"date":"2025-01-05","time": "4pm-6pm"}, {"date":"2025-01-12","time": "3:30pm-5:30pm"}, {"date":"2025-01-19","time": "3pm-5pm"}]
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "GET":
         date = request.args.get("date", default="")
-        events = db.execute("SELECT date, time FROM events")
+        events = db.execute("SELECT date, time FROM events ORDER BY date")
         if date == "":
             return render_template("index.html", events = events, date = date)
-        event_time = db.execute("SELECT time FROM events WHERE date = ?",date)
-        event_time = event_time[0]["time"]
+        event = db.execute("SELECT time, location FROM events WHERE date = ?",date)
+        event_time = event[0]["time"]
+        event_location = event[0]["location"]
 
         session["date"] = date
         rows_signup = db.execute("SELECT name, ts, cancel FROM signup WHERE date = ? AND cancel = 0 ORDER BY ts", date)
         rows_withdraw = db.execute("SELECT name, ts, cancel FROM signup WHERE date = ? AND cancel = 1 ORDER BY ts", date)
-        return render_template("index.html", events = events, date = date, event_time = event_time, rows_signup = rows_signup, rows_withdraw = rows_withdraw)
+        return render_template("index.html", events = events, date = date, event_time = event_time, event_location = event_location, rows_signup = rows_signup, rows_withdraw = rows_withdraw)
 
+
+    # Create a new event
+    event = request.form.get("event")
+    if event != "":
+        if len(event.split()) != 3:
+            return redirect(url_for('index'))
+        date, time, location = event.split()
+        row = db.execute("SELECT * FROM events WHERE date = ?", date)
+        if len(row) == 0:
+            db.execute("INSERT INTO events (date, time, location, video_url) VALUES(?,?,?,?)", date, time, location, "")
+        return redirect(url_for('index'))
+
+    # A new player signed up for the event
     date = session["date"]
-    name = request.form.get("name")
+    name = request.form.get("name", default="")
     if name == "" or " " in name:
         return redirect(url_for('index', date = date))
 

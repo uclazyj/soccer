@@ -9,6 +9,7 @@ CREATE TABLE signup (
 CREATE TABLE events (
     date TEXT NOT NULL,
     time TEXT NOT NULL,
+    location TEXT NOT NULL,
     video_url TEXT,
     PRIMARY KEY (date)
 );
