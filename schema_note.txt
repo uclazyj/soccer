@@ -6,6 +6,9 @@ CREATE TABLE signup (
     PRIMARY KEY (date, name)
 );
 
-CREATE TABLE signup_nameonly (
-    name TEXT NOT NULL
+CREATE TABLE events (
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    video_url TEXT,
+    PRIMARY KEY (date)
 );

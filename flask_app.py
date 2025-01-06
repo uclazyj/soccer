@@ -15,14 +15,22 @@ Session(app)
 
 db = SQL("sqlite:////home/zhaoyujian/soccer/soccer.db")
 
+# events = [{"date":"2025-01-05","time": "4pm-6pm"}, {"date":"2025-01-12","time": "3:30pm-5:30pm"}, {"date":"2025-01-19","time": "3pm-5pm"}]
+
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "GET":
         date = request.args.get("date", default="")
+        events = db.execute("SELECT date, time FROM events")
+        if date == "":
+            return render_template("index.html", events = events, date = date)
+        event_time = db.execute("SELECT time FROM events WHERE date = ?",date)
+        event_time = event_time[0]["time"]
+
         session["date"] = date
         rows_signup = db.execute("SELECT name, ts, cancel FROM signup WHERE date = ? AND cancel = 0 ORDER BY ts", date)
         rows_withdraw = db.execute("SELECT name, ts, cancel FROM signup WHERE date = ? AND cancel = 1 ORDER BY ts", date)
-        return render_template("index.html", date = date, rows_signup = rows_signup, rows_withdraw = rows_withdraw)
+        return render_template("index.html", events = events, date = date, event_time = event_time, rows_signup = rows_signup, rows_withdraw = rows_withdraw)
 
     date = session["date"]
     name = request.form.get("name")

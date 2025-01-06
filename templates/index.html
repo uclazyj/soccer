@@ -11,14 +11,14 @@
         </div>
 
         <ul>
-          <li><a href="?date=2025-01-05">2025-01-05</a></li>
-          <li><a href="?date=2025-01-12">2025-01-12</a></li>
-          <li><a href="?date=2025-01-19">2025-01-19</a></li>
+            {% for event in events %}
+                <li><a href="?date={{event.date}}">{{event.date}}</a></li>
+            {% endfor %}
         </ul>
 
         {% if date != "" %}
         <div class = "text-center">
-            Soccer event on {{date}}. Please enter your wechat group alias below to sign up :
+            Soccer event on {{date}} at {{event_time}}. Please enter your wechat group alias below to sign up :
         </div>
 
         <div class="container py-5 text-center">
@@ -37,7 +37,7 @@
                             <td>{{ row.name }}</td>
                             <td>{{ row.ts }}</td>
                         </tr>
-                    {% endfor%}
+                    {% endfor %}
 
                     {% for row in rows_withdraw %}
                         <tr>
@@ -45,7 +45,7 @@
                             <td><s>{{ row.name }}<s></td>
                             <td>{{ row.ts }}</td>
                         </tr>
-                    {% endfor%}
+                    {% endfor %}
                 </tbody>
             </table>
 
