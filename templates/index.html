@@ -16,14 +16,12 @@
           <li><a href="?date=2025-01-19">2025-01-19</a></li>
         </ul>
 
-
+        {% if date != "" %}
         <div class = "text-center">
             Soccer event on {{date}}. Please enter your wechat group alias below to sign up :
         </div>
 
         <div class="container py-5 text-center">
-
-
             <table class="table">
                 <thead>
                     <tr>
@@ -62,5 +60,6 @@
                 <button type="submit" class="btn btn-danger" name="submitAction" value="withdraw">Withdraw</button>
             </form>
         </div>
+        {% endif %}
     </body>
 </html>
